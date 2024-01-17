@@ -13,10 +13,10 @@ def load_dataset(filename):
     """
     Function to load the dataset
     """
-    extension = filename.rsplit(".",1)[-1]
-    if extension=="csv":
-        return pd.read_csv(filename)
-    raise TypeError(f"The extension is {extension} ad not a csv. Try again.")
+    extension = filename.rsplit(".", 1)[-1]
+    if extension.lower() != "csv":
+        raise TypeError(f"The extension is {extension} and not 'csv'. Try again.")
+    return pd.read_csv(filename)
 
 @click.command(short_help="Parse and filter dataset")
 @click.option("-i", "--input", help="Path to the CSV file", required=True)
@@ -30,7 +30,7 @@ def main(input: str, price: float, category: str, year: int, month: int):
     Main function to import a dataset and perform filtering operations
     """
     try:
-        df = pd.read_csv(input)
+        df = load_dataset(input)
         print(f"The file '{input}' was correctly read!")
 
     except FileNotFoundError:
@@ -62,11 +62,19 @@ def main(input: str, price: float, category: str, year: int, month: int):
     else:
         result_df_publish_date = df
 
+    # Filter titles starting with a vowel
+    result_df_vowel_title = FilteringClass(df).filter_title_starting_with_vowel()
+
+    # Filter by description length (50)
+    result_df_description_length = FilteringClass(df).filter_by_description_length(50)
+
     # Display the results
     print(f"Original DataFrame Shape: {df.shape}")
     print(f"Filtered DataFrame by Price Shape: {result_df_price.shape}")
     print(f"Filtered DataFrame by Category Shape: {result_df_category.shape}")
     print(f"Filtered DataFrame by Publish Date Shape: {result_df_publish_date.shape}")
+    print("Filtered DataFrame by Titles Starting with a Vowel Shape:", result_df_vowel_title.shape)
+    print("Filtered DataFrame by Description Length Shape:", result_df_description_length.shape)
 
 if __name__ == "__main__":
     print("The code is properly working!")
