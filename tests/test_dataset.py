@@ -29,10 +29,9 @@ class TestDataset(unittest.TestCase):
         Test line to load the dataset
         """
         df = load_dataset(self.path)
-        self.assertEqual(df.shape[0], 103063)  # Replace 103063 with the expected number of rows
+        self.assertEqual(df.shape[0], 103063)  # Expected number of rows
 
 if __name__ == "__main__":
     unittest.main()
-
 
     # path.rsplit(".")

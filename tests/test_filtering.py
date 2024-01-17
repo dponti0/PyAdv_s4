@@ -1,7 +1,13 @@
+"""
+Test filtering code
+"""
+
+# Import the necessary libraries
 import pandas as pd
 import unittest
 from scripts.filtering import FilteringClass
 
+# Define the class
 class TestFiltering(unittest.TestCase):
     """
     Class to test the filters on the dataset
@@ -34,7 +40,7 @@ class TestFiltering(unittest.TestCase):
             print("Filtered DataFrame Shape (Publish Date Filter):", filtered_df.shape)
 
     def test_filtering_category(self):
-        # Test filtering by category containing "Science"
+        # Test filtering by category containing "Fiction"
         category = 'Fiction'
         filtered_df = FilteringClass(self.df).filter_by_category(category)
         expected_result = self.df[self.df["Category"].str.contains(category, case=False, na=False)]
