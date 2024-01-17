@@ -6,34 +6,17 @@ Script to make updates in GitHub
 import sys
 import click
 import pandas as pd
+sys.path.append("scripts")
+from filtering import FilteringClass
 
-class FilteringClass:
+def load_dataset(filename):
     """
-    Class for filtering operations on a DataFrame
+    Function to load the dataset
     """
-    def __init__(self, df: pd.DataFrame):
-        """
-        Initialize the class with a DataFrame
-        """
-        self.df = df
-
-    def filter_by_price(self, min_price: float) -> pd.DataFrame:
-        """
-        Filter the DataFrame based on the minimum price
-        """
-        return self.df[self.df["Price Starting With ($)"] > min_price]
-
-    def filter_by_category(self, category: str) -> pd.DataFrame:
-        """
-        Filter the DataFrame based on the category
-        """
-        return self.df[self.df["Category"] == category]
-
-    def filter_by_publish_date(self, year: int, month: int) -> pd.DataFrame:
-        """
-        Filter the DataFrame based on the publish date (year and month)
-        """
-        return self.df[(self.df["Publish Date (Year)"] == year) & (self.df["Publish Date (Month)"] == month)]
+    extension = filename.rsplit(".",1)[-1]
+    if extension=="csv":
+        return pd.read_csv(filename)
+    raise TypeError(f"The extension is {extension} ad not a csv. Try again.")
 
 @click.command(short_help="Parse and filter dataset")
 @click.option("-i", "--input", help="Path to the CSV file", required=True)
