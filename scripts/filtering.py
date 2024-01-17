@@ -21,13 +21,6 @@ class FilteringClass:
         Filter the DataFrame based on the minimum price
         """
         return self.df[self.df["Price Starting With ($)"] > min_price]
-   
-    def filter_title_starting_with_vowel(self) -> pd.DataFrame:
-        """
-        Filter the DataFrame based on titles starting with a vowel
-        """
-        vowels = ['a', 'e', 'i', 'o', 'u']
-        return self.df[self.df['Title'].str[0].str.lower().isin(vowels)]
 
     def filter_by_publish_date(self, year: int, month: int) -> pd.DataFrame:
         """
